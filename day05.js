@@ -42,6 +42,8 @@ maxCities >= 1
 El número de maxCities puede ser mayor a giftsCities.length
 */
 
+/*
+Funciona
 const swaps = [];
 const createArr = (arrInput) => {
   arrInput.forEach((el, i, arr) => {
@@ -53,12 +55,41 @@ const createArr = (arrInput) => {
       createArr(arr.filter((valFil) => valFil !== el));
     }
   });
+  return swaps;
 };
-// function getMaxGifts(giftsCities, maxGifts, maxCities) {
-//   createArr(giftsCities);
-//   return 0;
-// }
-createArr([12, 3, 11]);
+
+console.log(createArr([12, 3, 11, 5, 7]));
+*/
+
+function getMaxGifts(giftsCities, maxGifts, maxCities) {
+  let swaps = [giftsCities.toString()];
+  const createArr = (arrInput) => {
+    arrInput.forEach((el, i, arr) => {
+      if (
+        arr.filter((elem) => elem !== el).length !== 0 &&
+        !swaps.includes(arr.filter((elem) => elem !== el).toString())
+      ) {
+        swaps.push(arr.filter((elem) => elem !== el).toString());
+        createArr(arr.filter((elem) => elem !== el));
+      }
+    });
+    return swaps;
+  };
+
+  const maxSwaps = createArr(giftsCities)
+    .map((str) => str.split(","))
+    .filter((arr) => arr.length <= maxCities)
+    .filter((arr) => {
+      return arr.reduce((sum, el) => sum + +el, 0) <= maxGifts;
+    })
+    .map((arr) => arr.reduce((sum, el) => sum + +el, 0));
+  return maxSwaps.length > 0 ? Math.max(...maxSwaps) : 0;
+}
+
+console.log(getMaxGifts([12, 3, 11, 5, 7], 20, 3));
+
+// getMaxGifts([12, 3, 11, 5, 7], 20, 3); // 20
+
 // getMaxGifts([12, 3, 11, 5, 7], 20, 3); // 20
 // getMaxGifts([50], 15, 1) // 0
 // getMaxGifts([50], 100, 1) // 50
@@ -66,8 +97,6 @@ createArr([12, 3, 11]);
 // getMaxGifts([50, 70, 30], 100, 2) // 100
 // getMaxGifts([50, 70, 30], 100, 3) // 100
 // getMaxGifts([50, 70, 30], 100, 4) // 100
-
-console.log(swaps);
 
 // [
 //   "11-12-3-5-7",
@@ -102,3 +131,11 @@ console.log(swaps);
 //   "5",
 //   "7",
 // ];
+
+const factorial = function (num) {
+  if (num === 0 || num === 1) {
+    return 1;
+  } else {
+    return num * factorial(num - 1);
+  }
+};
