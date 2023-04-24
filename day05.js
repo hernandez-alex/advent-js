@@ -42,6 +42,63 @@ maxCities >= 1
 El número de maxCities puede ser mayor a giftsCities.length
 */
 
-function getMaxGifts(giftsCities, maxGifts, maxCities) {
-  return 0;
-}
+const swaps = [];
+const createArr = (arrInput) => {
+  arrInput.forEach((el, i, arr) => {
+    if (
+      arr.filter((valFil) => valFil !== el).length !== 0 &&
+      !swaps.includes(arr.filter((valFil) => valFil !== el).toString())
+    ) {
+      swaps.push(arr.filter((valFil) => valFil !== el).toString());
+      createArr(arr.filter((valFil) => valFil !== el));
+    }
+  });
+};
+// function getMaxGifts(giftsCities, maxGifts, maxCities) {
+//   createArr(giftsCities);
+//   return 0;
+// }
+createArr([12, 3, 11]);
+// getMaxGifts([12, 3, 11, 5, 7], 20, 3); // 20
+// getMaxGifts([50], 15, 1) // 0
+// getMaxGifts([50], 100, 1) // 50
+// getMaxGifts([50, 70], 100, 1) // 70
+// getMaxGifts([50, 70, 30], 100, 2) // 100
+// getMaxGifts([50, 70, 30], 100, 3) // 100
+// getMaxGifts([50, 70, 30], 100, 4) // 100
+
+console.log(swaps);
+
+// [
+//   "11-12-3-5-7",
+//   "11-12-3-5",
+//   "11-12-5-7",
+//   "12-3-5-7",
+//   "11-12-3-7",
+//   "11-3-5-7",
+//   "11-12-3",
+//   "11-12-5",
+//   "12-5-7",
+//   "11-3-5",
+//   "3-5-7",
+//   "12-3-7",
+//   "11-5-7",
+//   "11-12-7",
+//   "12-3-5",
+//   "11-3-7",
+//   "12-3",
+//   "11-12",
+//   "11-3",
+//   "3-5",
+//   "11-5",
+//   "11-7",
+//   "5-7",
+//   "12-5",
+//   "12-7",
+//   "3-7",
+//   "12",
+//   "3",
+//   "11",
+//   "5",
+//   "7",
+// ];
