@@ -1,6 +1,6 @@
 "use strict";
 // ============================================================================
-// Día Ocho
+// Día Nueve
 // ============================================================================
 /*
 Una empresa que fabrica luces de Navidad nos ha pedido que le echemos una mano.
