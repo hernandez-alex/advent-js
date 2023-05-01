@@ -1,6 +1,6 @@
 "use strict";
 // ============================================================================
-// Día Catorce
+// Día Dieciseis
 // ============================================================================
 /*
 Papá Noel está empezando a recibir un montón de cartas pero tienen un montón de problemas de formato. Para mejorar la lectura, va a escribir un programa que, dado un texto, lo formatea de acuerdo a las siguientes reglas:

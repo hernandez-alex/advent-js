@@ -1,6 +1,6 @@
 "use strict";
 // ============================================================================
-// Día Catorce
+// Día Dieciocho
 // ============================================================================
 /*
 Estamos imprimiendo los códigos de barra para los envíos en la fábrica de Papá Noel. Usamos un sistema de estampación de números donde cada dígito se imprime con una tinta diferente. Es un sistema antiguo pero fiable. Sin embargo, a veces nos quedamos sin tinta de un dígito.

@@ -1,6 +1,6 @@
 "use strict";
 // ============================================================================
-// Día Catorce
+// Día Diecisiete
 // ============================================================================
 /*
 Estamos preparando los sacos para los regalos de Navidad pero cada saco tiene un límite de peso.

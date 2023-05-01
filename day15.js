@@ -1,6 +1,6 @@
 "use strict";
 // ============================================================================
-// Día Catorce
+// Día Quince
 // ============================================================================
 /*
 Una pareja está poniendo el árbol de navidad. El chico es un motivado de los adornos navideños y quiere que quede perfectamente equilibrado. Tiene tres tipos de decoraciones:
