@@ -79,4 +79,31 @@ const gifts = [
   { country: "Italy", weight: 50 },
 ];
 
-console.log(howManyReindeers(reindeerTypes, gifts));
+console.log("Mia", howManyReindeers(reindeerTypes, gifts));
+
+// Solucion de internet
+function howManyReindeers2(reindeerTypes, gifts) {
+  reindeerTypes.sort((a, b) => b.weightCapacity - a.weightCapacity);
+  return gifts.reduce((acc, country) => {
+    const filteredReindeers = reindeerTypes.filter(
+      (reindeer) => reindeer.weightCapacity < country.weight
+    );
+
+    let totalSum = filteredReindeers.reduce((acc, reindeer) => {
+      return acc + reindeer.weightCapacity;
+    }, 0);
+
+    const reindeers = filteredReindeers.map((reindeer) => {
+      let num = Math.floor(country.weight / totalSum);
+      country.weight -= num * reindeer.weightCapacity;
+      totalSum -= reindeer.weightCapacity;
+      return { type: reindeer.type, num };
+    });
+
+    acc = [...acc, { country: country.country, reindeers }];
+
+    return acc;
+  }, []);
+}
+
+console.log("Internet", howManyReindeers2(reindeerTypes, gifts));
