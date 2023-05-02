@@ -25,49 +25,45 @@ const gifts = [
 function howManyReindeers(reindeerTypes, gifts) {
   const countries = [];
 
-  const reindeerTypesCap = reindeerTypes.map((obj, i, arr) => {
+  const reTyCap = reindeerTypes.map((obj, i, arr) => {
     return {
       type: obj.type,
       weightCapacity: obj.weightCapacity,
       weightCapAcum: arr.reduce((sum, el) => sum + el.weightCapacity, 0),
-      num: 0,
     };
   });
 
-  for (let i = 1; i < reindeerTypesCap.length; i++) {
-    reindeerTypesCap[i].weightCapAcum =
-      reindeerTypesCap[i - 1].weightCapAcum - reindeerTypesCap[i - 1].weightCapacity;
+  for (let i = 1; i < reTyCap.length; i++) {
+    reTyCap[i].weightCapAcum = reTyCap[i - 1].weightCapAcum - reTyCap[i - 1].weightCapacity;
   }
-  console.log("reindeerTypesCap", reindeerTypesCap);
 
   for (let i = 0; i < gifts.length; i++) {
     countries.push({ country: gifts[i].country, reindeers: [] });
   }
 
   for (let i = 0; i < countries.length; i++) {
-    console.log(countries[i].country, gifts[i].weight, "delete when completed");
     let wCap = gifts[i].weight;
 
-    for (let j = 0; j < reindeerTypesCap.length; j++) {
-      let n = 0;
-      while (n < 10) {
-        //wCap > 0 ||
-        // console.log(
-        //   reindeerTypesCap[j].weightCapAcum,
-        //   wCap,
-        //   reindeerTypesCap[j].weightCapAcum <= wCap
-        // );
-        if (reindeerTypesCap[j].weightCapAcum >= wCap) {
-          countries[i].reindeers.push({ type: reindeerTypesCap[j].type, num: 1 }); //{ type: reindeerTypesCap[j].type, num: 1 }
-          wCap = reindeerTypesCap[j].weightCapacity - wCap;
-          console.log(wCap, n);
+    while (wCap > 0) {
+      for (let j = 0; j < reTyCap.length; j++) {
+        if (wCap >= reTyCap[j].weightCapAcum) {
+          const busca = countries[i].reindeers.map((obj) => obj.type);
+
+          if (!busca.includes(reTyCap[j].type)) {
+            countries[i].reindeers.push({ type: reTyCap[j].type, num: 1 });
+          } else {
+            for (let k = 0; k < countries[i].reindeers.length; k++) {
+              if (countries[i].reindeers[k].type === reTyCap[j].type) {
+                countries[i].reindeers[k].num++;
+              }
+            }
+          }
+          wCap -= reTyCap[j].weightCapacity;
         }
-        n++;
       }
     }
   }
-  console.log("countries", countries);
-  return [];
+  return countries;
 }
 
 const reindeerTypes = [
@@ -83,4 +79,4 @@ const gifts = [
   { country: "Italy", weight: 50 },
 ];
 
-howManyReindeers(reindeerTypes, gifts);
+console.log(howManyReindeers(reindeerTypes, gifts));
