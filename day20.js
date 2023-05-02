@@ -1,6 +1,6 @@
 "use strict";
 // ============================================================================
-// Día Diecinueve
+// Día Veinte
 // ============================================================================
 /*
 Papá Noel se ha dado cuenta de que ni con la colaboración de todos los elfos va a poder entregar todos los regalos a tiempo. Por eso va a pedir ayuda a sus amigos de Autentia.
