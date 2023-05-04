@@ -19,8 +19,10 @@ Como la CPU es de 8 bits, el número que podría representar va desde 0 hasta 25
 Después de que se haya ejecutado la última instrucción, debes devolver una matriz con el resultado para cada registro. De V00 a V07. 
 */
 
+// const nxNum = (x) => (x > 255 ? x - 256 : x < 0 ? x + 256 : x);
+// const nxNum = (x) => (x + 256) % 256;
 function executeCommands(commands) {
-  const nxNum = (x) => (x > 255 ? x - 256 : x < 0 ? x + 256 : x);
+  const MX = 256;
   const res = [0, 0, 0, 0, 0, 0, 0, 0];
   const arrCom = [];
 
@@ -32,62 +34,56 @@ function executeCommands(commands) {
       comm.push(commands[i].split(" ")[1].split(",")[1]);
     arrCom.push(comm);
   }
-  console.log(arrCom);
 
   for (let j = 0; j < arrCom.length; j++) {
     const cm = arrCom[j];
 
-    if (cm[0] === "MOV" && cm[1].charAt(0) === "V") {
+    if (cm[0] === "MOV" && cm[1].charAt(0) === "V")
       res[+cm[2].charAt(2)] = res[+cm[1].charAt(2)];
-    } // (1- MOV Vxx,Vyy)
 
-    if (cm[0] === "MOV" && cm[1].charAt(0) !== "V") {
+    if (cm[0] === "MOV" && cm[1].charAt(0) !== "V")
       res[+cm[2].charAt(2)] = +cm[1];
-    } // (2- MOV n,Vxx)
 
-    if (cm[0] === "ADD") {
-      res[+cm[1].charAt(2)] = nxNum(res[+cm[1].charAt(2)] + res[+cm[2].charAt(2)]);
-    } // (3- ADD Vxx,Vyy)
+    if (cm[0] === "ADD")
+      res[+cm[1].charAt(2)] =
+        (res[+cm[1].charAt(2)] + res[+cm[2].charAt(2)] + MX) % MX;
 
-    if (cm[0] === "DEC") {
-      res[+cm[1].charAt(2)] = nxNum(res[+cm[1].charAt(2)] - 1);
-    } // (4- DEC Vxx)
+    if (cm[0] === "DEC")
+      res[+cm[1].charAt(2)] = (res[+cm[1].charAt(2)] - 1 + MX) % MX;
 
-    if (cm[0] === "INC") {
-      res[+cm[1].charAt(2)] = nxNum(res[+cm[1].charAt(2)] + 1);
-    } // (5- INC Vxx)
+    if (cm[0] === "INC")
+      res[+cm[1].charAt(2)] = (res[+cm[1].charAt(2)] + 1) % MX;
 
-    if (cm[0] === "JMP" && res[0] !== 0) {
-      j = 1 - +cm[1];
-    } // (6- JMP i)
+    if (cm[0] === "JMP" && res[0] !== 0) j = 1 - +cm[1];
   }
 
   return res;
 }
 
+// console.log(
+//   executeCommands([
+//     "MOV 5,V00", // V00 es 5
+//     "MOV 10,V01", // V01 es 10
+//     "DEC V00", // V00 ahora es 4
+//     "ADD V00,V01", // V00 = V00 + V01 = 14
+//   ])
+// );
+
+// Output: [14, 10, 0, 0, 0, 0, 0, 0]
+
+// console.log(
+//   executeCommands([
+//     "MOV 255,V00", // V00 es 255
+//     "INC V00", // V00 es 256, desborda a 0
+//     "DEC V01", // V01 es -1, desborda a 255
+//     "DEC V01", // V01 es 254
+//   ])
+// );
+
+// Output: [0, 254, 0, 0, 0, 0, 0, 0]
+
 console.log(
-  executeCommands([
-    "MOV 5,V00", // V00 es 5
-    "MOV 10,V01", // V01 es 10
-    "DEC V00", // V00 ahora es 4
-    "ADD V00,V01", // V00 = V00 + V01 = 14
-  ])
-);
-
-// Output: [14, 10, 0, 0, 0, 0, 0]
-
-console.log(
-  executeCommands([
-    "MOV 255,V00", // V00 es 255
-    "INC V00", // V00 es 256, desborda a 0
-    "DEC V01", // V01 es -1, desborda a 255
-    "DEC V01", // V01 es 254
-  ])
-);
-
-// Output: [0, 254, 0, 0, 0, 0, 0]
-
-console.log(
+  "M",
   executeCommands([
     "MOV 10,V00", // V00 es 10
     "DEC V00", // decrementa V00 en 1  <---┐
@@ -97,6 +93,7 @@ console.log(
   ])
 );
 
+// console.log("M", executeCommands(["MOV V03,V04"]));
 // Output: [ 0, 10, 0, 0, 0, 0, 1, 0 ]
 
 /*
