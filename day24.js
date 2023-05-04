@@ -17,46 +17,110 @@ Los movimientos válidos son de una posición hacia arriba, abajo, izquierda o d
 */
 
 function canExit(maze) {
-  // debugger;
   const m = maze.map((arr) => arr);
   const nF = m.length;
   const nC = m[0].length;
-  for (let f = 0; f < m.length; f++) {
-    for (let c = 0; c < m[f].length; c++) {
-      if (["d", "u", "r", "l", "S"].includes(m[f][c])) {
-        // console.log("--- In", `(${f},${c})`, m[f][c]);
-        // Down
-        if (f !== nF && m[f + 1][c] === " ") {
-          console.log("d: (f+1,c)", `(${f + 1},${c})`);
-          m[f + 1][c] = "d";
-        }
-        // Up
-        if (f !== 0 && m[f - 1][c] === " ") {
-          console.log("u: (f-1,c)", `(${f - 1},${c})`);
-          m[f - 1][c] = "u";
-        }
-        // Right
-        if (c !== nC && m[f][c + 1] === " ") {
-          console.log("r: (f,c+1)", `(${f},${c + 1})`);
-          m[f][c + 1] = "r";
-        }
-        // Left
-        if (c !== 0 && m[f][c - 1] === " ") {
-          console.log("l: (f,c-1)", `(${f},${c - 1})`);
-          m[f][c - 1] = "l";
+
+  let ctn = true;
+  while (ctn === true) {
+    ctn = false;
+    for (let f = 0; f < m.length; f++) {
+      for (let c = 0; c < m[f].length; c++) {
+        if (["d", "u", "r", "l", "S"].includes(m[f][c])) {
+          if (f !== nF - 1 && m[f + 1][c] === "E") return true;
+          if (f !== nF - 1 && m[f + 1][c] === " ") {
+            m[f + 1][c] = "d"; // Down
+            ctn = true;
+          }
+
+          if (f !== 0 && m[f - 1][c] === "E") return true;
+          if (f !== 0 && m[f - 1][c] === " ") {
+            m[f - 1][c] = "u"; // Up
+            ctn = true;
+          }
+
+          if (c !== nC - 1 && m[f][c + 1] === "E") return true;
+          if (c !== nC - 1 && m[f][c + 1] === " ") {
+            m[f][c + 1] = "r"; // Right
+            ctn = true;
+          }
+
+          if (c !== 0 && m[f][c - 1] === "E") return true;
+          if (c !== 0 && m[f][c - 1] === " ") {
+            m[f][c - 1] = "l"; // Left
+            ctn = true;
+          }
         }
       }
     }
   }
-  console.log(m, nF, nC);
 
   return false;
 }
 
-canExit([
-  [" ", " ", "W", " ", "S"],
-  [" ", "l", " ", " ", " "],
-  [" ", " ", " ", "W", " "],
-  ["W", "W", " ", "W", "W"],
-  [" ", " ", " ", " ", "E"],
-]); // -> true
+console.log(
+  canExit([
+    [" ", " ", "W", " ", "S"],
+    [" ", " ", " ", " ", " "],
+    [" ", " ", " ", "W", " "],
+    ["W", "W", " ", "W", "W"],
+    [" ", " ", " ", " ", "E"],
+  ]) // -> true
+);
+
+console.log(
+  canExit([
+    [" ", " ", "W", "W", "S"],
+    [" ", " ", " ", "W", " "],
+    [" ", " ", " ", "W", " "],
+    ["W", "W", " ", "W", "W"],
+    [" ", " ", " ", " ", "E"],
+  ]) // -> false
+);
+
+// Solución de Internet que no entiendo
+function canExitInt(maze) {
+  const r = ([x, y]) => {
+    const val = maze[x][y];
+    delete maze[x][y];
+    return (
+      ["E"].includes(val) +
+      [
+        [x + 1, y],
+        [x - 1, y],
+        [x, y + 1],
+        [x, y - 1],
+      ]
+        .filter((arr) => maze[arr[0]])
+        .filter((arr) => ["E", " "].includes(maze[arr[0]][arr[1]]))
+        .some(r)
+    );
+  };
+
+  const n = maze.flat().join("").indexOf("S");
+  const x = ~~(n / maze[0].length);
+  const y = n % maze[0].length;
+
+  return !!r([x, y]);
+}
+
+console.log("Solución de Internet");
+console.log(
+  canExitInt([
+    [" ", " ", "W", " ", "S"],
+    [" ", " ", " ", " ", " "],
+    [" ", " ", " ", "W", " "],
+    ["W", "W", " ", "W", "W"],
+    [" ", " ", " ", " ", "E"],
+  ]) // -> true
+);
+
+console.log(
+  canExitInt([
+    [" ", " ", "W", "W", "S"],
+    [" ", " ", " ", "W", " "],
+    [" ", " ", " ", "W", " "],
+    ["W", "W", " ", "W", "W"],
+    [" ", " ", " ", " ", "E"],
+  ]) // -> false
+);
