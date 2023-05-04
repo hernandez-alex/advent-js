@@ -19,42 +19,44 @@ Los movimientos válidos son de una posición hacia arriba, abajo, izquierda o d
 function canExit(maze) {
   // debugger;
   const m = maze.map((arr) => arr);
-  const nY = m.length;
-  const nX = m[0].length;
-  for (let y = 0; y < m.length; y++) {
-    for (let x = 0; x < m[y].length; x++) {
-      if (/d|u|r|l|S/.test(m[y][x])) {
+  const nF = m.length;
+  const nC = m[0].length;
+  for (let f = 0; f < m.length; f++) {
+    for (let c = 0; c < m[f].length; c++) {
+      if (["d", "u", "r", "l", "S"].includes(m[f][c])) {
+        // console.log("--- In", `(${f},${c})`, m[f][c]);
         // Down
-        if (y !== nY && m[y + 1][x] === " ") {
-          console.log(y + 1, x);
-          // console.log(("y+1", y + 1, "x", x + 1));
-          m[y + 1][x] = "d";
+        if (f !== nF && m[f + 1][c] === " ") {
+          console.log("d: (f+1,c)", `(${f + 1},${c})`);
+          m[f + 1][c] = "d";
         }
         // Up
-        if (y !== 0 && m[y - 1][x] === " ") {
-          m[y - 1][x] = "u";
+        if (f !== 0 && m[f - 1][c] === " ") {
+          console.log("u: (f-1,c)", `(${f - 1},${c})`);
+          m[f - 1][c] = "u";
         }
         // Right
-        if (x !== nX && m[y][x + 1] === " ") {
-          m[y][x + 1] = "r";
+        if (c !== nC && m[f][c + 1] === " ") {
+          console.log("r: (f,c+1)", `(${f},${c + 1})`);
+          m[f][c + 1] = "r";
         }
         // Left
-        if (x !== 0 && m[y][x - 1] === " ") {
-          m[y][x - 1] = "l";
+        if (c !== 0 && m[f][c - 1] === " ") {
+          console.log("l: (f,c-1)", `(${f},${c - 1})`);
+          m[f][c - 1] = "l";
         }
       }
-      // console.log("aqui", x, x, m[x][x]);
     }
   }
-  console.log(m, nY, nX);
+  console.log(m, nF, nC);
 
   return false;
 }
 
 canExit([
-  [" ", " ", "W", "l", "S"],
-  [" ", " ", "l", "l", "d"],
-  [" ", " ", " ", "W", "d"],
+  [" ", " ", "W", " ", "S"],
+  [" ", "l", " ", " ", " "],
+  [" ", " ", " ", "W", " "],
   ["W", "W", " ", "W", "W"],
   [" ", " ", " ", " ", "E"],
 ]); // -> true
